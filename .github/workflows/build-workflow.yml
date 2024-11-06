@@ -1,0 +1,96 @@
+name: OrangeHRM PROD Image Build Workflow
+
+on:
+  push:
+    branches: [ php-7.4-ubuntu-20.04 ] 
+  schedule:
+    - cron: '30 0 * * MON'  # 0030 in UTC, 0600 in IST
+  workflow_dispatch:
+
+env:
+  REGISTRY: hub.docker.com
+  DOCKER_HUB_REPO: "orangehrm/orangehrm-environment-images"
+  TAG_NAME: "prod-php-7.4.33-ubuntu-20.04"
+  VERSION_TAG_NAME: "prod-php-7.4-ubuntu20.04"
+  #LATEST_TAG_NAME: "prod-php-latest-ubuntu-20.04" 
+  UPSTREAM_REPO: "orangehrm/orangehrm-prod-environment"
+  UPSTREAM_BRANCH: "refs/heads/php-7.4-ubuntu-20.04"
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+  
+      - name: Verify prerequisites
+        run: |
+          docker --version
+          docker compose version
+          composer --version
+  
+      - name: Install test suite dependencies
+        run: composer install
+
+      - name: Build docker image
+        run: docker build -t ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_NAME }} docker-image
+
+      - name: Spin up the container
+        run: |
+          docker compose up -d
+          docker ps -a
+
+      - name: Run unit test suite
+        run: |
+          sleep 10s
+          php vendor/bin/codecept run unit
+
+    #   - name: Get installed php version
+    #     run: echo "VERSION_TAG_NAME=prod-php-$(docker exec prod_web_ubuntu php -r 'echo PHP_VERSION;')-ubuntu-20.04" >> $GITHUB_ENV
+
+      - name: New image with a version tag & latest tag
+        run: |
+          docker tag ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_NAME }} ${{ env.DOCKER_HUB_REPO }}:${{ env.VERSION_TAG_NAME }}
+    #     docker tag ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_NAME }} ${{ env.DOCKER_HUB_REPO }}:${{ env.LATEST_TAG_NAME }}
+
+      - name: Docker hub login
+        if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
+        run: docker login -u=${{ secrets.DOCKER_HUB_USERNAME }} -p=${{ secrets.DOCKER_HUB_PASSWORD }}
+
+      - name: Deploy changes to the docker hub with version tag
+        if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
+        run: |
+          docker push ${{ env.DOCKER_HUB_REPO }}:${{ env.VERSION_TAG_NAME }}
+          echo 'SUCCESS - IMAGE WAS PUBLISHED ${{ env.DOCKER_HUB_REPO }}:${{ env.VERSION_TAG_NAME }}'
+      
+    #   - name: Deploy changes to the docker hub with latest tag
+    #     if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
+    #     run: |
+    #       docker push ${{ env.DOCKER_HUB_REPO }}:${{ env.LATEST_TAG_NAME }}
+    #       echo 'SUCCESS - IMAGE WAS PUBLISHED ${{ env.DOCKER_HUB_REPO }}:${{ env.LATEST_TAG_NAME }}'
+        
+      - name: Docker hub logout
+        if: ${{ github.repository == env.UPSTREAM_REPO && github.ref == env.UPSTREAM_BRANCH }}
+        run: docker logout
+
+      - name: Send the email notification
+        if: always()
+        uses: dawidd6/action-send-mail@v2
+        with:
+          # mail server settings
+          server_address: smtp.gmail.com
+          server_port: 465
+          # user credentials
+          username: ${{ secrets.EMAIL_USERNAME }}
+          password: ${{ secrets.EMAIL_PASSWORD }}
+          # email subject
+          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+          # email body as text
+          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+          # comma-separated string, send email to
+          to: techops@orangehrm.com
+          # from email name
+          from: DockHRM Automator
