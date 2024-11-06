@@ -10,7 +10,7 @@ on:
 env:
   REGISTRY: hub.docker.com
   DOCKER_HUB_REPO: "orangehrm/orangehrm-environment-images"
-  TAG_NAME: "prod-php-7.4.33-ubuntu-20.04"
+  TAG_NAME: "prod-php-7.4-ubuntu20.04"
   VERSION_TAG_NAME: "prod-php-7.4-ubuntu20.04"
   #LATEST_TAG_NAME: "prod-php-latest-ubuntu-20.04" 
   UPSTREAM_REPO: "orangehrm/orangehrm-prod-environment"
@@ -51,9 +51,9 @@ jobs:
     #   - name: Get installed php version
     #     run: echo "VERSION_TAG_NAME=prod-php-$(docker exec prod_web_ubuntu php -r 'echo PHP_VERSION;')-ubuntu-20.04" >> $GITHUB_ENV
 
-      - name: New image with a version tag & latest tag
-        run: |
-          docker tag ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_NAME }} ${{ env.DOCKER_HUB_REPO }}:${{ env.VERSION_TAG_NAME }}
+    #   - name: New image with a version tag & latest tag
+    #     run: |
+    #       docker tag ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_NAME }} ${{ env.DOCKER_HUB_REPO }}:${{ env.VERSION_TAG_NAME }}
     #     docker tag ${{ env.DOCKER_HUB_REPO }}:${{ env.TAG_NAME }} ${{ env.DOCKER_HUB_REPO }}:${{ env.LATEST_TAG_NAME }}
 
       - name: Docker hub login
