@@ -56,6 +56,12 @@ class WebContainerCest
         $I->seeInShellOutput('LibreOffice');
     }
 
+    public function checkImageMagick(UnitTester $I){
+        $I->wantTo("verify imagemagick is installed in the container");
+        $I->runShellCommand("docker exec prod_web_ubuntu apt list --installed | grep imagemagick");
+        $I->seeInShellOutput('imagemagick');
+    }
+
   public function checkLibSSLInstallation(UnitTester $I){
           $I->wantTo("verify openssl is installed in the container");
           $I->runShellCommand("docker exec prod_web_ubuntu apt list --installed | grep openssl");
