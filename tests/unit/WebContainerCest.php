@@ -20,7 +20,7 @@ class WebContainerCest
     public function checkApacheInstallation(UnitTester $I){
         $I->wantTo("verify apache is installed in the container");
         $I->runShellCommand("docker exec prod_web_rhel httpd -v");
-        $I->seeInShellOutput('Apache/2.4.37');
+        $I->seeInShellOutput('Apache/2.4.62');
     }
     
     public function checkApacheServiceIsRunning(UnitTester $I){
