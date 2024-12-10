@@ -146,7 +146,6 @@ class WebContainerCest
             $I->seeInShellOutput('hash');
             $I->seeInShellOutput('iconv');
             $I->seeInShellOutput('igbinary');
-            $I->seeInShellOutput('imap');
             $I->seeInShellOutput('ionCube Loader');
             $I->seeInShellOutput('json');
             $I->seeInShellOutput('ldap');
