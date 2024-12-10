@@ -45,7 +45,7 @@ class WebContainerCest
     public function checkMemcachedInstallation(UnitTester $I){
         $I->wantTo("verify memcache is installed in the container");
         $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep memcached");
-        $I->seeInShellOutput('memcached-1.5.22');
+        $I->seeInShellOutput('memcached-1.6.9');
 
     }
 
