@@ -32,7 +32,7 @@ class WebContainerCest
     public function checkCronInstallation(UnitTester $I){
         $I->wantTo("verify cron is installed in the container");
         $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep cron");
-        $I->seeInShellOutput('cronie-1.5.2');
+        $I->seeInShellOutput('cronie-1.5.7');
 
     }
 
