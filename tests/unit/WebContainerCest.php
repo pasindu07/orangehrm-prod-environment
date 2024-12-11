@@ -20,7 +20,7 @@ class WebContainerCest
     public function checkApacheInstallation(UnitTester $I){
         $I->wantTo("verify apache is installed in the container");
         $I->runShellCommand("docker exec prod_web_rhel httpd -v");
-        $I->seeInShellOutput('Apache/2.4.37');
+        $I->seeInShellOutput('Apache/2.4.62');
     }
     
     public function checkApacheServiceIsRunning(UnitTester $I){
@@ -32,7 +32,7 @@ class WebContainerCest
     public function checkCronInstallation(UnitTester $I){
         $I->wantTo("verify cron is installed in the container");
         $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep cron");
-        $I->seeInShellOutput('cronie-1.5.2');
+        $I->seeInShellOutput('cronie-1.5.7');
 
     }
 
@@ -45,7 +45,7 @@ class WebContainerCest
     public function checkMemcachedInstallation(UnitTester $I){
         $I->wantTo("verify memcache is installed in the container");
         $I->runShellCommand("docker exec prod_web_rhel rpm -qa | grep memcached");
-        $I->seeInShellOutput('memcached-1.5.22');
+        $I->seeInShellOutput('memcached-1.6.9');
 
     }
 
@@ -117,9 +117,9 @@ class WebContainerCest
     }
 
     public function checkPHPVersion(UnitTester $I){
-        $I->wantTo("verify php 7.4 is installed in the container");
+        $I->wantTo("verify php 8.2 is installed in the container");
         $I->runShellCommand("docker exec prod_web_rhel php --version");
-        $I->seeInShellOutput('PHP 7.4');
+        $I->seeInShellOutput('PHP 8.2');
 
     }
 
@@ -146,7 +146,6 @@ class WebContainerCest
             $I->seeInShellOutput('hash');
             $I->seeInShellOutput('iconv');
             $I->seeInShellOutput('igbinary');
-            $I->seeInShellOutput('imap');
             $I->seeInShellOutput('ionCube Loader');
             $I->seeInShellOutput('json');
             $I->seeInShellOutput('ldap');

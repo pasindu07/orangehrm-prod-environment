@@ -2,17 +2,17 @@ name: OrangeHRM PROD Image Build Workflow
 
 on:
   push:
-    branches: [ php-7.4-rhel-8 ] 
+    branches: [ php-8.2-rhel-9 ] 
   schedule:
     - cron: '30 0 * * MON'  # 0030 in UTC, 0600 in IST
   workflow_dispatch:
 
 env:
   REGISTRY: hub.docker.com
-  DOCKER_HUB_REPO: "orangehrm/prod-environment-redhat"
-  LATEST_TAG_NAME: "php-7.4-latest"
+  DOCKER_HUB_REPO: "orangehrm/prod-environment-redhat9"
+  LATEST_TAG_NAME: "php-8.2-latest"
   UPSTREAM_REPO: "orangehrm/orangehrm-prod-environment"
-  UPSTREAM_BRANCH: "refs/heads/php-7.4-rhel-8"
+  UPSTREAM_BRANCH: "refs/heads/php-8.2-rhel-9"
 
 jobs:
 

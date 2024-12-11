@@ -1,4 +1,4 @@
-FROM redhat/ubi8-init
+FROM redhat/ubi9-init
 LABEL authors = "OrangeHRM TechOps <techops@orangehrm.com>"
 
 ARG REDHAT_USERNAME
@@ -7,7 +7,7 @@ ARG REDHAT_PASSWORD
 WORKDIR /var/www/html
 
 # Register a system with the Red Hat Customer Portal
-RUN subscription-manager register --username $REDHAT_USERNAME --password $REDHAT_PASSWORD && \
+RUN subscription-manager register --username ${REDHAT_USERNAME} --password ${REDHAT_PASSWORD} && \
 subscription-manager refresh && \
 subscription-manager attach --auto
 
@@ -21,8 +21,7 @@ glibc-all-langpacks \
 unzip \
 vim \
 wget \
-make \
-curl 
+make 
 
 # -----------------------------------------------------------------------------
 # Install Middlewares and modules
@@ -45,10 +44,9 @@ cronie
 # Install prerequisites
 RUN dnf install -y libmemcached-devel 
 
-
-# Enable PHP 7.4 module
+# Enable PHP 8.2 module
 RUN dnf module reset php -y
-RUN dnf module enable php:7.4 -y
+RUN dnf module enable php:8.2 -y
 
 # Install PHP 
 RUN dnf install -y php
@@ -71,25 +69,23 @@ php-pear.noarch
 RUN dnf install -y libmcrypt libmcrypt-devel libssh2-devel --disablerepo="*" --enablerepo="epel"
 
 # Install third party PHP packages
-RUN yes | pecl install -f igbinary-3.2.6 ssh2-1.3.1 mcrypt-1.0.4 && \
+RUN yes | pecl install -f igbinary-3.2.6 ssh2-1.3.1 mcrypt-1.0.7 && \
     printf "\n" | pecl install -f memcached-3.1.5
 
 ##Install php-tidy and php-imap modules##
 
-# Install prerequisites
+# # Install prerequisites
 RUN  dnf install -y diffutils \
-libtidy-devel \
-libc-client \
-libc-client-devel
+libtidy-devel
 
-# Download and extract the PHP source code
+# # Download and extract the PHP source code
 RUN mkdir ~/php_source 
 RUN cd ~/php_source && \
 wget https://www.php.net/distributions/php-$(php -r 'echo PHP_VERSION;').tar.gz && \
 gunzip php-$(php -r 'echo PHP_VERSION;').tar.gz &&\
 tar xvf php-$(php -r 'echo PHP_VERSION;').tar
 
-# Build and enable the tidy module
+# # Build and enable the tidy module
 RUN cd ~/php_source/php-$(php -r 'echo PHP_VERSION;')/ext/tidy && \
 phpize && \
 ./configure && \
@@ -99,15 +95,15 @@ mv modules/tidy.so $(php -r 'echo ini_get("extension_dir");') && \
 echo "extension=tidy.so" >> /etc/php.d/40-tidy.ini
 
 #Build and enable the imap module
-RUN cd ~/php_source/php-$(php -r 'echo PHP_VERSION;')/ext/imap && \
-phpize && \
-./configure --with-libdir=lib64 --with-kerberos --with-imap-ssl &&\
-make
-RUN cd ~/php_source/php-$(php -r 'echo PHP_VERSION;')/ext/imap && \
-mv modules/imap.so $(php -r 'echo ini_get("extension_dir");') && \
-echo "extension=imap.so" >> /etc/php.d/40-imap.ini
+# RUN cd ~/php_source/php-$(php -r 'echo PHP_VERSION;')/ext/imap && \
+# phpize && \
+# ./configure --with-libdir=lib64 --with-kerberos --with-imap-ssl &&\
+# make
+# RUN cd ~/php_source/php-$(php -r 'echo PHP_VERSION;')/ext/imap && \
+# mv modules/imap.so $(php -r 'echo ini_get("extension_dir");') && \
+# echo "extension=imap.so" >> /etc/php.d/40-imap.ini
 
-#Reload apache service and remove the downloaded source code
+# #Reload apache service and remove the downloaded source code
 RUN rm -rf ~/php_source
 
 # Update the default apache site with the config we created.
@@ -118,7 +114,7 @@ COPY apache-config.conf /etc/httpd/sites-available/orangehrm.conf
 
 
 # Copy IonCube loader and PHP configuration files
-COPY ioncube/ioncube_loader_lin_7.4.so /usr/lib64/php/modules/ioncube_loader_lin_7.4.so
+COPY ioncube/ioncube_loader_lin_8.2.so /usr/lib64/php/modules/ioncube_loader_lin_8.2.so
 COPY php.ini /etc/php.ini
 
 # Copy Cert and Private Keys
@@ -131,15 +127,14 @@ openssl-devel \
 poppler-utils \
 libreoffice-draw \
 libreoffice-writer \
-urw-base35-fonts-20170801-10.el8.noarch
-
+urw-base35-fonts-20200910-6.el9.noarch
 
 RUN dnf group install -y "Fonts"
 
-RUN wget https://alge.orangehrm.com/downloads/ohrm-font-installer-rhel && \
-unzip ohrm-font-installer-rhel && \
-cd font-installer && \
-bash install-fonts.sh
+# RUN wget https://alge.orangehrm.com/downloads/ohrm-font-installer-rhel && \
+# unzip ohrm-font-installer-rhel && \
+# cd font-installer && \
+# bash install-fonts.sh
 
 ## Install MariaDB-client ##
 
@@ -149,12 +144,12 @@ RUN dnf module reset mariadb -y
 # Enable the MariaDB repository
 RUN cd ~ && \ 
 curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup && \
-bash mariadb_repo_setup --mariadb-server-version=10.4.22
+bash mariadb_repo_setup --mariadb-server-version=10.11.7 --skip-check-installed
 
 # Refresh the repository cache
 RUN dnf makecache
 
-# Install MariaDB from the new repository
+# # Install MariaDB from the new repository
 RUN dnf repolist && \
 dnf -y install MariaDB-client
 
