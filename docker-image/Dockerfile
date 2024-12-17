@@ -111,10 +111,9 @@ RUN echo "extension=igbinary.so" | tee /etc/php/8.3/mods-available/igbinary.ini 
 # IonCube module
 COPY ioncube/ioncube_loader_lin_8.3.so /usr/lib/php/20190902/ioncube_loader_lin_8.3.so
 
-
-#Copy the php configuration file
-COPY php.ini /etc/php/7.4/apache2/php.ini
-COPY php.ini /etc/php/7.4/cli/php.ini
+# Copy the PHP configuration file
+COPY php.ini /etc/php/8.3/apache2/php.ini
+COPY php.ini /etc/php/8.3/cli/php.ini
 
 #Start apache 
 CMD [ "/usr/sbin/apache2ctl" , "-D" , "FOREGROUND" ]
