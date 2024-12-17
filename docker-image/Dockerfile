@@ -109,7 +109,7 @@ RUN echo "extension=igbinary.so" | tee /etc/php/8.3/mods-available/igbinary.ini 
     && ln -s /etc/php/8.3/mods-available/igbinary.ini /etc/php/8.3/apache2/conf.d/igbinary.ini
 
 # IonCube module
-COPY ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20190902/ioncube_loader_lin_7.4.so
+COPY ioncube/ioncube_loader_lin_8.3.so /usr/lib/php/20190902/ioncube_loader_lin_8.3.so
 
 
 #Copy the php configuration file
