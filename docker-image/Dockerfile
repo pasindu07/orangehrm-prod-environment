@@ -98,15 +98,15 @@ RUN pecl install memcached-3.1.5
 RUN pecl install apcu-5.1.20 
 RUN pecl install mcrypt-1.0.7
 
-#Enable APCU Extension
-RUN echo "extension=apcu.so" | tee /etc/php/7.4/mods-available/apcu.ini \
-    && ln -s /etc/php/7.4/mods-available/apcu.ini /etc/php/7.4/cli/conf.d/apcu.ini \
-    && ln -s /etc/php/7.4/mods-available/apcu.ini /etc/php/7.4/apache2/conf.d/apcu.ini
+# Enable APCU Extension
+RUN echo "extension=apcu.so" | tee /etc/php/8.3/mods-available/apcu.ini \
+    && ln -s /etc/php/8.3/mods-available/apcu.ini /etc/php/8.3/cli/conf.d/apcu.ini \
+    && ln -s /etc/php/8.3/mods-available/apcu.ini /etc/php/8.3/apache2/conf.d/apcu.ini
 
-#Enable IGBINARY Extension
-RUN echo "extension=igbinary.so" |  tee /etc/php/7.4/mods-available/igbinary.ini \
-    && ln -s /etc/php/7.4/mods-available/igbinary.ini /etc/php/7.4/cli/conf.d/igbinary.ini \
-    && ln -s /etc/php/7.4/mods-available/igbinary.ini /etc/php/7.4/apache2/conf.d/igbinary.ini
+# Enable IGBINARY Extension
+RUN echo "extension=igbinary.so" | tee /etc/php/8.3/mods-available/igbinary.ini \
+    && ln -s /etc/php/8.3/mods-available/igbinary.ini /etc/php/8.3/cli/conf.d/igbinary.ini \
+    && ln -s /etc/php/8.3/mods-available/igbinary.ini /etc/php/8.3/apache2/conf.d/igbinary.ini
 
 # IonCube module
 COPY ioncube/ioncube_loader_lin_7.4.so /usr/lib/php/20190902/ioncube_loader_lin_7.4.so
