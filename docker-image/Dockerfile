@@ -93,7 +93,7 @@ RUN apt update &&  apt install -y \
 
 #Installing the following packages via PECL
 RUN pecl install ssh2-1.3.1 
-RUN pecl install igbinary-3.2.6
+RUN pecl install igbinary-3.2.16
 RUN pecl install memcached-3.1.5 
 RUN pecl install apcu-5.1.20 
 RUN pecl install mcrypt-1.0.7
