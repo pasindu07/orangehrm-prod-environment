@@ -67,29 +67,29 @@ RUN apt-get install -y \
     zlib1g-dev
 
 RUN apt update &&  apt install -y \
-    php7.4 \
-    php7.4-dev \
+    php8.3 \
+    php8.3-dev \
     pkg-config \
     libbson-1.0-0 \
     libmongoc-1.0-0 \
-    php7.4-cli \
+    php8.3-cli \
     php-pear \
-    php7.4-tidy \
-    php7.4-xml \
-    php7.4-bcmath \
-    php7.4-json \
-    php7.4-bz2 \
-    php7.4-curl \
-    php7.4-gd \
-    php7.4-gmp \
-    php7.4-ldap \
-    php7.4-mbstring \
-    php7.4-soap \
-    php7.4-sqlite3 \
-    php7.4-imap \
-    php7.4-mysql \
-    php7.4-zip \
-    libapache2-mod-php7.4
+    php8.3-tidy \
+    php8.3-xml \
+    php8.3-bcmath \
+    # php8.3-json \
+    php8.3-bz2 \
+    php8.3-curl \
+    php8.3-gd \
+    php8.3-gmp \
+    php8.3-ldap \
+    php8.3-mbstring \
+    php8.3-soap \
+    php8.3-sqlite3 \
+    php8.3-imap \
+    php8.3-mysql \
+    php8.3-zip \
+    libapache2-mod-php8.3
 
 #Installing the following packages via PECL
 RUN pecl install ssh2-1.3.1 
