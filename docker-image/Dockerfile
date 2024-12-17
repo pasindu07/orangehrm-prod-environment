@@ -59,7 +59,7 @@ RUN apache2ctl -M | grep 'ssl\|rewrite\|header'
 RUN apt-get update 
 
 RUN apt-get install -y \
-    libaio1 \
+    libaio1t64 \  
     libfreetype6-dev \
     libmemcached-dev \
     libssh2-1-dev \
