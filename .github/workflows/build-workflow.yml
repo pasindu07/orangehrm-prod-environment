@@ -2,7 +2,7 @@ name: OrangeHRM PROD Image Build Workflow
 
 on:
   push:
-    branches: [ php-7.4-ubuntu-20.04 ] 
+    branches: [ php-8.3-ubuntu-24.04 ] 
   schedule:
     - cron: '30 0 * * MON'  # 0030 in UTC, 0600 in IST
   workflow_dispatch:
@@ -14,7 +14,7 @@ env:
   VERSION_TAG_NAME: "prod-php-7.4-ubuntu20.04"
   #LATEST_TAG_NAME: "prod-php-latest-ubuntu-20.04" 
   UPSTREAM_REPO: "orangehrm/orangehrm-prod-environment"
-  UPSTREAM_BRANCH: "refs/heads/php-7.4-ubuntu-20.04"
+  UPSTREAM_BRANCH: "refs/heads/php-8.3-ubuntu-24.04"
 
 jobs:
 
