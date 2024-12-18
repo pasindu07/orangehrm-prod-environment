@@ -33,7 +33,7 @@ RUN service cron start
 
 #Install MariaDB 10.4 client
 RUN curl -LsS -O https://downloads.mariadb.com/MariaDB/mariadb_repo_setup
-RUN bash mariadb_repo_setup --mariadb-server-version=10.4.22
+RUN bash mariadb_repo_setup --mariadb-server-version=10.11.10
 RUN apt install -y mariadb-client
 
 # -----------------------------------------------------------------------------
