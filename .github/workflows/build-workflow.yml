@@ -100,3 +100,4 @@ jobs:
           to: ${{ vars.EMAIL_RECIPIENTS }}
           # from email name
           from: DockHRM Automator
+          attachments : installed_packages_detailed_report.txt
