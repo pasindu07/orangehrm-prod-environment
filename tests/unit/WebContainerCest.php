@@ -20,7 +20,7 @@ class WebContainerCest
     public function checkApacheInstallation(UnitTester $I){
         $I->wantTo("verify apache is installed in the container");
         $I->runShellCommand("docker exec prod_web_ubuntu apache2 -v");
-        $I->seeInShellOutput('Server version: Apache/2.4.41');
+        $I->seeInShellOutput('Server version: Apache/2.4.58');
     }
     
     public function checkApacheServiceIsRunning(UnitTester $I){
@@ -90,7 +90,7 @@ class WebContainerCest
     public function checkCurlInstallation(UnitTester $I){
         $I->wantTo("verify curl is installed in the container");
         $I->runShellCommand("docker exec prod_web_ubuntu curl --version");
-        $I->seeInShellOutput('curl 7.68.0');
+        $I->seeInShellOutput('curl 8.5.0');
     }
 
     public function checkP7zipInstallation(UnitTester $I){
@@ -101,9 +101,9 @@ class WebContainerCest
     }
 
     public function checkPHPVersion(UnitTester $I){
-        $I->wantTo("verify php 7.4 is installed in the container");
+        $I->wantTo("verify php 8.3 is installed in the container");
         $I->runShellCommand("docker exec prod_web_ubuntu php --version");
-        $I->seeInShellOutput('PHP 7.4');
+        $I->seeInShellOutput('PHP 8.3');
 
     }
 
