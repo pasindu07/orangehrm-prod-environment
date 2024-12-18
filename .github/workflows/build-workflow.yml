@@ -93,9 +93,9 @@ jobs:
           username: ${{ secrets.EMAIL_USERNAME }}
           password: ${{ secrets.EMAIL_PASSWORD }}
           # email subject
-          subject: ${{ github.job }} job of ${{ github.repository }} has ${{ job.status }}
+          subject: GitHub Workflow of ${{ github.repository }}/php-8.3-ubuntu-24.04 - ${{ job.status }}
           # email body as text
-          body: ${{ github.job }} job in worflow ${{ github.workflow }} of ${{ github.repository }} has ${{ job.status }}
+          body: ${{ github.workflow }} status - ${{ job.status }}
           # comma-separated string, send email to
           to: ${{ vars.EMAIL_RECIPIENTS }}
           # from email name
