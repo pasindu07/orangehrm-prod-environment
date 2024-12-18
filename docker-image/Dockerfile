@@ -118,6 +118,9 @@ COPY ioncube/ioncube_loader_lin_8.3.so /usr/lib/php/20190902/ioncube_loader_lin_
 COPY php.ini /etc/php/8.3/apache2/php.ini
 COPY php.ini /etc/php/8.3/cli/php.ini
 
+# Generating the report of installed packages
+RUN apt list --installed > /var/log/installed_packages_detailed_report.txt
+
 #Start apache 
 CMD [ "/usr/sbin/apache2ctl" , "-D" , "FOREGROUND" ]
 
